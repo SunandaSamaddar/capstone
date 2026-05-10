@@ -2,3 +2,8 @@
 
 **/.env
 **/.secrets
+
+.venv/**
+
+.vscode/**
+.lh/**
