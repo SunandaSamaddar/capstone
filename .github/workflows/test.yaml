@@ -16,9 +16,7 @@ jobs:
     outputs:
       services: ${{ steps.filter.outputs.changes }}
     steps:
-      # - uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v5.0.0
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      # - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
       - name: Paths Changes Filter
         id: filter
         # uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
@@ -29,6 +27,8 @@ jobs:
   test:
     runs-on: ubuntu-24.04
     needs: filter
+    if: ${{ needs.filter.outputs.services != '[]' && needs.filter.outputs.services
+      != '' }}
     strategy:
       fail-fast: false
       matrix:
@@ -42,7 +42,7 @@ jobs:
         service: ${{ fromJson( needs.filter.outputs.services ) }}
     steps:
       - name: Checkout Code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           persist-credentials: false
       - name: Setup Node.js environment
